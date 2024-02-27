@@ -5,7 +5,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./src/components/*"],
-      "@/assets/*": ["./src/assets/*"],
+      "@/assets/*": ["./assets/*"],
       "@/constants/*": ["./src/constants/*"]
     }
   },
