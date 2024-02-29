@@ -1,29 +1,40 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Redirect, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import products from "@/assets/data/products";
 import {
   Text,
   View,
   Image,
   StyleSheet,
-  FlatList,
   Pressable,
 } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "@/src/components/Buton";
+import { useCart } from "@/src/providers/CartProvider";
+import { PizzaSize } from "@/src/types";
 
-const sizes = ["S", "M", "L", "XL"];
+const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams();
   const product = products.find((p) => p.id.toString() === id);
-  const [selectedSize, setSelectedSize] = useState("M");
+
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
+  const router = useRouter();
   if (!product) return <Text>Product not found</Text>;
 
-  const addToCart = () => {
-    console.warn("Adding To Cart");
-  };
+  const { addItem, items } = useCart();
 
+  const addToCart = () => {
+    if (!product) {
+      return;
+    }
+
+    addItem(product, selectedSize);
+    router.push("/cart");
+  };
+  console.log(items);
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
@@ -80,6 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   styleText: { fontSize: 20, fontWeight: "500" },
-  price: { fontSize: 18, fontWeight: "bold" },
+  price: { fontSize: 18, fontWeight: "bold", marginTop: "auto" },
 });
 export default ProductDetailsScreen;

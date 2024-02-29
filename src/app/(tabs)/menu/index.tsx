@@ -1,4 +1,5 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlashList } from "@shopify/flash-list";
+
 import { View } from "@/components/Themed";
 import ProductListItem from "@/components/ProductListItem";
 
@@ -9,7 +10,7 @@ export default function MenuScreen() {
   return (
     <View>
       <Stack.Screen options={{ title: "Menu" }} />
-      <FlatList
+      <FlashList
         data={products}
         renderItem={({ item }) => <ProductListItem product={item} />}
         numColumns={2}
