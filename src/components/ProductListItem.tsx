@@ -15,9 +15,11 @@ type ProductListItemProps = {
 };
 
 export default function ProductListItem({ product }: ProductListItemProps) {
-  const segment = useSegments()
+  const segments = useSegments();
+
   return (
-    <Link href={`/menu/${product.id}`} asChild>
+    // @ts-ignore
+    <Link href={`/${segments[0]}/menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
         <Image
           source={{
@@ -39,7 +41,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     flex: 1,
-    maxWidth: "50%",
   },
   image: {
     width: "100%",

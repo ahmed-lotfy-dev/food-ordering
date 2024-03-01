@@ -1,15 +1,8 @@
 import { Redirect, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import products from "@/assets/data/products";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-} from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { Text, View, Image, StyleSheet, Pressable } from "react-native";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "@/src/components/Buton";
 import { useCart } from "@/src/providers/CartProvider";
 import { PizzaSize } from "@/src/types";
