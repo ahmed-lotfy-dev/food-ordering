@@ -6,7 +6,6 @@ import ProductListItem from "@/components/ProductListItem";
 import products from "@/assets/data/products";
 import { Stack } from "expo-router";
 import { Dimensions } from "react-native";
-import { FullWindowOverlay } from "react-native-screens";
 
 export default function MenuScreen() {
   return (

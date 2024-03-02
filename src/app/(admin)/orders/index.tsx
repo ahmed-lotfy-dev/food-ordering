@@ -1,11 +1,21 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
-import { Text, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
+import { FlashList } from "@shopify/flash-list";
+import orders from "@/assets/data/orders";
+import OrderListItem from "@/src/components/OrderListItem";
+import { Stack } from "expo-router";
 
 export default function TabTwoScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Orders Main Page</Text>
+    <View style={{ width: Dimensions.get("screen").width, height: "100%" }}>
+      <Stack.Screen options={{ title: "Orders" }} />
+
+      <FlashList
+        data={orders}
+        renderItem={({ item }) => <OrderListItem order={item} />}
+        estimatedItemSize={5}
+      />
     </View>
   );
 }

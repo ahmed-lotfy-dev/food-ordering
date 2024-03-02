@@ -24,7 +24,8 @@ export default function CartScreen() {
       <FlashList
         data={items}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
-        estimatedItemSize={5}r
+        contentContainerStyle={{ padding: 10 }}
+        estimatedItemSize={5}
       />
       <Text style={{ marginTop: 20, fontSize: 20, fontWeight: "500" }}>
         Total: ${total}
