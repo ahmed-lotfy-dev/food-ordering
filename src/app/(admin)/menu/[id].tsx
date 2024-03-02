@@ -9,7 +9,6 @@ import products from "@/assets/data/products";
 import { Text, View, Image, StyleSheet, Pressable } from "react-native";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import { useState } from "react";
-import Button from "@/src/components/Buton";
 import { useCart } from "@/src/providers/CartProvider";
 import { PizzaSize } from "@/src/types";
 import { FontAwesome } from "@expo/vector-icons";
@@ -42,7 +41,7 @@ const ProductDetailsScreen = () => {
         options={{
           title: "Menu",
           headerRight: () => (
-            <Link href={`/`} asChild>
+            <Link href={`/(admin)/menu/create?id=${id}`} asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome

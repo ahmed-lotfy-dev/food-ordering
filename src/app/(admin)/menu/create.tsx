@@ -2,14 +2,19 @@ import Button from "@/src/components/Buton";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import Colors from "@/src/constants/Colors";
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Image } from "react-native";
+import { View, Text, TextInput, StyleSheet, Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { Stack, useLocalSearchParams, useSegments } from "expo-router";
+import products from "@/assets/data/products";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [errors, setErrors] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string | null>(null);
+  const { id } = useLocalSearchParams();
+  const isUpdating = !!id;
+  const product = products.find((p) => p.id.toString() === id);
 
   const resetFields = () => {
     setName("");
@@ -33,6 +38,14 @@ const CreateProductScreen = () => {
     return true;
   };
 
+  const onSubmit = () => {
+    if (isUpdating) {
+      onUpdate();
+    } else {
+      onCreate();
+    }
+  };
+
   const onCreate = () => {
     if (!onValidateInput()) {
       return;
@@ -42,16 +55,35 @@ const CreateProductScreen = () => {
     resetFields();
   };
 
+  const onUpdate = () => {
+    if (!onValidateInput()) {
+      return;
+    }
+
+    console.warn("Updating product");
+    resetFields();
+  };
+
+  const onDelete = () => {
+    console.warn("Deleting Product");
+  };
+  const confirmDelete = () => {
+    Alert.alert("Confirm", "Are you sure you want to delete this product", [
+      { text: "Cancel" },
+      { text: "Delete", style: "destructive", onPress: onDelete },
+    ]);
+    // confirm("");
+    // onDelete();
+  };
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -60,9 +92,14 @@ const CreateProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      {image && (
-        <Image source={{ uri: defaultPizzaImage }} style={styles.image} />
-      )}
+      <Stack.Screen
+        options={{ title: isUpdating ? "Update Product" : "Create Product" }}
+      />
+      <Image
+        source={{ uri: image || defaultPizzaImage }}
+        style={styles.image}
+      />
+
       <Text style={styles.textButton} onPress={pickImage}>
         Select Image
       </Text>
@@ -82,7 +119,12 @@ const CreateProductScreen = () => {
         onChangeText={setPrice}
       />
       <Text style={{ color: "red" }}>{errors}</Text>
-      <Button text="Create" onPress={onCreate} />
+      <Button text={isUpdating ? "Update" : "Create"} onPress={onSubmit} />
+      {isUpdating && (
+        <Text style={styles.textButton} onPress={confirmDelete}>
+          Delete
+        </Text>
+      )}
     </View>
   );
 };
