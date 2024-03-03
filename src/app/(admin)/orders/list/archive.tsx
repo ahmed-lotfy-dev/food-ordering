@@ -7,6 +7,7 @@ import OrderListItem from "@/src/components/OrderListItem";
 import { Stack } from "expo-router";
 
 export default function TabTwoScreen() {
+  const Archived = orders.filter((o) => o.status === "Delivered");
   return (
     <View
       style={{
@@ -14,10 +15,10 @@ export default function TabTwoScreen() {
         height: "100%",
       }}
     >
-      <Stack.Screen options={{ title: "Orders" }} />
+      <Stack.Screen options={{ title: "Archived" }} />
 
       <FlashList
-        data={orders}
+        data={Archived}
         renderItem={({ item }) => <OrderListItem order={item} />}
         estimatedItemSize={5}
       />

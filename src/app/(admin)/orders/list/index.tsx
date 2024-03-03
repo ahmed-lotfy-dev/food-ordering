@@ -7,12 +7,19 @@ import OrderListItem from "@/src/components/OrderListItem";
 import { Stack } from "expo-router";
 
 export default function TabTwoScreen() {
+  const newOrders = orders.filter((o) => o.status === "New");
+
   return (
-    <View style={{ width: Dimensions.get("screen").width, height: "100%" }}>
-      <Stack.Screen options={{ title: "Orders" }} />
+    <View
+      style={{
+        width: Dimensions.get("screen").width,
+        height: "100%",
+      }}
+    >
+      <Stack.Screen options={{ title: "New" }} />
 
       <FlashList
-        data={orders}
+        data={newOrders}
         renderItem={({ item }) => <OrderListItem order={item} />}
         estimatedItemSize={5}
       />
@@ -25,6 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "gray",
   },
   title: {
     fontSize: 20,
