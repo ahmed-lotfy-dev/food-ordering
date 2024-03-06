@@ -53,6 +53,7 @@ export type Database = {
       }
       orders: {
         Row: {
+          order_items: readonly unknown[] | null | undefined
           created_at: string
           id: number
           status: string

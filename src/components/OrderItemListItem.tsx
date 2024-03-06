@@ -6,7 +6,7 @@ import { defaultPizzaImage } from "./ProductListItem"
 import RemoteImage from "./RemoteImage"
 
 type OrderItemListItemProps = {
-  item: { products: Tables<"products"> } & Tables<"order_item">
+  item: any
 }
 
 const OrderItemListItem = ({ item }: OrderItemListItemProps) => {

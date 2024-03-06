@@ -1,6 +1,7 @@
-import { Text, FlatList, ActivityIndicator } from "react-native"
+import { Text, ActivityIndicator } from "react-native"
 import OrderListItem from "@/components/OrderListItem"
 import { useMyOrderList } from "@/src/api/orders"
+import { FlashList } from "@shopify/flash-list"
 
 export default function OrdersScreen() {
   const { data: orders, isLoading, error } = useMyOrderList()
@@ -13,10 +14,10 @@ export default function OrdersScreen() {
   }
 
   return (
-    <FlatList
+    <FlashList
       data={orders}
       renderItem={({ item }) => <OrderListItem order={item} />}
-      contentContainerStyle={{ gap: 10, padding: 10 }}
+      estimatedItemSize={6}
     />
   )
 }

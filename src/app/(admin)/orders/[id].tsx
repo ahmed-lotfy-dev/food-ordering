@@ -6,12 +6,12 @@ import Colors from "@/constants/Colors"
 import { OrderStatusList } from "@/src/types"
 import { Stack, useLocalSearchParams } from "expo-router"
 import {
-  FlatList,
   Text,
   View,
   Pressable,
   ActivityIndicator,
 } from "react-native"
+import { FlashList } from "@shopify/flash-list"
 
 export default function OrderDetailsScreen() {
   const { id: idString } = useLocalSearchParams()
@@ -38,13 +38,13 @@ export default function OrderDetailsScreen() {
   }
 
   return (
-    <View style={{ padding: 10, gap: 20, flex: 1 }}>
+    <View style={{ padding: 10, gap: 20, flex: 1, height: "100%", }}>
       <Stack.Screen options={{ title: `Order #${id}` }} />
 
-      <FlatList
+      <FlashList
         data={order.order_items}
         renderItem={({ item }) => <OrderItemListItem item={item} />}
-        contentContainerStyle={{ gap: 10 }}
+        estimatedItemSize={6}
         ListHeaderComponent={() => <OrderListItem order={order} />}
         ListFooterComponent={() => (
           <>
