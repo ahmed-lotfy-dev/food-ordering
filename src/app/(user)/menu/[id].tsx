@@ -1,39 +1,66 @@
-import { Redirect, Stack, useLocalSearchParams, useRouter } from "expo-router";
-import products from "@/assets/data/products";
-import { Text, View, Image, StyleSheet, Pressable } from "react-native";
-import { defaultPizzaImage } from "@/src/components/ProductListItem";
-import { useState } from "react";
-import Button from "@/src/components/Buton";
-import { useCart } from "@/src/providers/CartProvider";
-import { PizzaSize } from "@/src/types";
+import { Redirect, Stack, useLocalSearchParams, useRouter } from "expo-router"
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from "react-native"
+import { defaultPizzaImage } from "@/src/components/ProductListItem"
+import { useState } from "react"
+import Button from "@/src/components/Buton"
+import { useCart } from "@/src/providers/CartProvider"
+import { PizzaSize } from "@/src/types"
+import { useProduct } from "@/src/api/products"
+import { supabase } from "../../lib/supabase"
+import RemoteImage from "@/src/components/RemoteImage"
 
-const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
+const sizes: PizzaSize[] = ["S", "M", "L", "XL"]
 
 const ProductDetailsScreen = () => {
-  const { id } = useLocalSearchParams();
-  const product = products.find((p) => p.id.toString() === id);
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>("M")
+  const router = useRouter()
+  const { id: idString } = useLocalSearchParams()
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0])
+  const { data: product, isLoading, error } = useProduct(id)
 
-  const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
-  const router = useRouter();
-  if (!product) return <Text>Product not found</Text>;
-
-  const { addItem, items } = useCart();
+  const { addItem, items } = useCart()
 
   const addToCart = () => {
     if (!product) {
-      return;
+      return
+    }
+    if (isLoading) {
+      return <ActivityIndicator />
+    }
+    if (error || !product) {
+      return <Text>Failed to fetch product</Text>
     }
 
-    addItem(product, selectedSize);
-    router.push("/cart");
-  };
-  console.log(items);
+    if (!product) return <Text>Product not found</Text>
+
+    addItem(product, selectedSize)
+    router.push("/cart")
+  }
+
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+  if (error || !product) {
+    return <Text>Failed to fetch product</Text>
+  }
+
+  if (!product) return <Text>Product not found</Text>
+
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
-      <Image
-        source={{ uri: product.image || defaultPizzaImage }}
+      <RemoteImage
+        fallback={defaultPizzaImage}
+        path={product.image}
         style={styles.image}
+        resizeMode="contain"
       />
 
       <Text>Select size</Text>
@@ -64,8 +91,8 @@ const ProductDetailsScreen = () => {
       <Text style={styles.price}>$ {product.price}</Text>
       <Button text="Add To Cart" onPress={addToCart} />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: { backgroundColor: "white", flex: 1, padding: 10 },
@@ -85,5 +112,5 @@ const styles = StyleSheet.create({
   },
   styleText: { fontSize: 20, fontWeight: "500" },
   price: { fontSize: 18, fontWeight: "bold", marginTop: "auto" },
-});
-export default ProductDetailsScreen;
+})
+export default ProductDetailsScreen

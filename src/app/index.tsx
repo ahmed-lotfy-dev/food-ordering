@@ -13,8 +13,6 @@ const index = () => {
 
   if (!isAdmin) return <Redirect href={"/(user)"} />
 
-  console.log(session)
-
   return (
     <View style={{ flex: 1, justifyContent: "center", padding: 10 }}>
       <Link href={"/(user)/menu"} asChild>

@@ -1,30 +1,27 @@
-import { Pressable, StyleSheet } from "react-native";
-
-import { Text } from "./Themed";
-import { Image } from "react-native";
-
-import Colors from "@/constants/Colors";
-import { Product } from "../types";
-import { Link, useSegments } from "expo-router";
+import { Pressable, StyleSheet } from "react-native"
+import { Text } from "./Themed"
+import Colors from "@/constants/Colors"
+import { Tables } from "../types"
+import { Link, useSegments } from "expo-router"
+import RemoteImage from "./RemoteImage"
 
 export const defaultPizzaImage =
-  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png";
+  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png"
 
 type ProductListItemProps = {
-  product: Product;
-};
+  product: Tables<"products">
+}
 
 export default function ProductListItem({ product }: ProductListItemProps) {
-  const segments = useSegments();
+  const segments = useSegments()
 
   return (
     // @ts-ignore
     <Link href={`/${segments[0]}/menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
-        <Image
-          source={{
-            uri: product.image || defaultPizzaImage,
-          }}
+        <RemoteImage
+          fallback={defaultPizzaImage}
+          path={product.image}
           style={styles.image}
           resizeMode="contain"
         />
@@ -32,7 +29,7 @@ export default function ProductListItem({ product }: ProductListItemProps) {
         <Text style={styles.price}>${product.price.toFixed(2)}</Text>
       </Pressable>
     </Link>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -57,4 +54,4 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     fontWeight: "bold",
   },
-});
+})

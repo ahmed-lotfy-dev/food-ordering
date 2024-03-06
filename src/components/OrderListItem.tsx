@@ -1,18 +1,18 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { Order } from "../types";
-import relativeTime from "dayjs/plugin/relativeTime";
-import dayjs from "dayjs";
-import { Link, useSegments } from "expo-router";
+import { View, Text, StyleSheet, Pressable } from "react-native"
+import React from "react"
+import { Order, Tables } from "../types"
+import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from "dayjs"
+import { Link, useSegments } from "expo-router"
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
 type OrderListItemProps = {
-  order: Order;
-};
+  order: Tables<"orders">
+}
 
 const OrderListItem = ({ order }: OrderListItemProps) => {
-  const segments = useSegments();
+  const segments = useSegments()
 
   return (
     <Link href={`/${segments[0]}/orders/${order.id}`} asChild>
@@ -25,8 +25,8 @@ const OrderListItem = ({ order }: OrderListItemProps) => {
         <Text style={styles.status}>{order.status}</Text>
       </Pressable>
     </Link>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
   status: {
     fontWeight: "500",
   },
-});
+})
 
-export default OrderListItem;
+export default OrderListItem

@@ -1,13 +1,31 @@
-import { Dimensions, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native"
 
-import { View } from "@/components/Themed";
-import { FlashList } from "@shopify/flash-list";
-import orders from "@/assets/data/orders";
-import OrderListItem from "@/src/components/OrderListItem";
-import { Stack } from "expo-router";
+import { FlashList } from "@shopify/flash-list"
+import orders from "@/assets/data/orders"
+import OrderListItem from "@/src/components/OrderListItem"
+import { Stack } from "expo-router"
+import { useAdminOrderList } from "@/src/api/orders"
 
 export default function TabTwoScreen() {
-  const Archived = orders.filter((o) => o.status === "Delivered");
+  const {
+    data: Archived,
+    isLoading,
+    error,
+  } = useAdminOrderList({ archived: true })
+
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+  if (error) {
+    return <Text>Failed to fetch</Text>
+  }
+
   return (
     <View
       style={{
@@ -23,7 +41,7 @@ export default function TabTwoScreen() {
         estimatedItemSize={5}
       />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -42,4 +60,4 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
-});
+})

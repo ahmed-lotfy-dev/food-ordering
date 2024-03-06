@@ -1,44 +1,22 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Text, FlatList, ActivityIndicator } from "react-native"
+import OrderListItem from "@/components/OrderListItem"
+import { useMyOrderList } from "@/src/api/orders"
 
-import { View } from "@/components/Themed";
-import { FlashList } from "@shopify/flash-list";
-import orders from "@/assets/data/orders";
-import OrderListItem from "@/src/components/OrderListItem";
-import { Stack } from "expo-router";
+export default function OrdersScreen() {
+  const { data: orders, isLoading, error } = useMyOrderList()
 
-export default function TabTwoScreen() {
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+  if (error) {
+    return <Text>Failed to fetch</Text>
+  }
+
   return (
-    <View
-      style={{
-        width: Dimensions.get("screen").width,
-        height: "100%",
-      }}
-    >
-      <Stack.Screen options={{ title: "Orders" }} />
-
-      <FlashList
-        data={orders}
-        renderItem={({ item }) => <OrderListItem order={item} />}
-        estimatedItemSize={5}
-      />
-    </View>
-  );
+    <FlatList
+      data={orders}
+      renderItem={({ item }) => <OrderListItem order={item} />}
+      contentContainerStyle={{ gap: 10, padding: 10 }}
+    />
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "gray",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});

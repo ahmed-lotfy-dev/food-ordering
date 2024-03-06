@@ -1,17 +1,21 @@
-import { FlashList } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list"
+import { ActivityIndicator, View, Text } from "react-native"
+import ProductListItem from "@/components/ProductListItem"
 
-import { View } from "@/components/Themed";
-import ProductListItem from "@/components/ProductListItem";
-
-import products from "@/assets/data/products";
-import { Stack } from "expo-router";
-import { Dimensions } from "react-native";
-import { FullWindowOverlay } from "react-native-screens";
+import { Dimensions } from "react-native"
+import { useProductList } from "@/src/api/products"
 
 export default function MenuScreen() {
+  const { data: products, isLoading, error } = useProductList()
+
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+
+  if (error) return <Text>Failed to fetch products</Text>
+
   return (
     <View style={{ width: Dimensions.get("screen").width, height: "100%" }}>
-      <Stack.Screen options={{ title: "Menu" }} />
       <FlashList
         data={products}
         renderItem={({ item }) => <ProductListItem product={item} />}
@@ -20,5 +24,5 @@ export default function MenuScreen() {
         estimatedItemSize={5}
       />
     </View>
-  );
+  )
 }

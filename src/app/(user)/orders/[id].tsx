@@ -1,39 +1,34 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
-import orders from "../../../../assets/data/orders";
-import OrderItemListItem from "../../../components/OrderItemListItem";
-import OrderListItem from "../../../components/OrderListItem";
-import { FlashList } from "@shopify/flash-list";
+import { useOrderDetails } from "@/src/api/orders"
+// import { useUpdateOrderSubscription } from "@/src/api/orders/subscriptions"
+import OrderItemListItem from "@/components/OrderItemListItem"
+import OrderListItem from "@/components/OrderListItem"
+import { Stack, useLocalSearchParams } from "expo-router"
+import { ActivityIndicator, FlatList, Text, View } from "react-native"
 
-const OrderDetailScreen = () => {
-  const { id } = useLocalSearchParams();
+export default function OrderDetailsScreen() {
+  const { id: idString } = useLocalSearchParams()
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0])
 
-  const order = orders.find((o) => o.id.toString() === id);
-
-  if (!order) {
-    return <Text>Order not found!</Text>;
+  const { data: order, isLoading, error } = useOrderDetails(id)
+  // useUpdateOrderSubscription(id)
+  console.log(order)
+  if (isLoading) {
+    return <ActivityIndicator />
+  }
+  if (error) {
+    return <Text>Failed to fetch</Text>
   }
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: `Order #${order.id}` }} />
+    <View style={{ padding: 10, gap: 20, flex: 1 }}>
+      <Stack.Screen options={{ title: `Order #${id}` }} />
 
-      <FlashList
+      <FlatList
         data={order.order_items}
         renderItem={({ item }) => <OrderItemListItem item={item} />}
-        estimatedItemSize={10}
-        ListHeaderComponent={<OrderListItem order={order} />}
+        contentContainerStyle={{ gap: 10 }}
+        ListHeaderComponent={() => <OrderListItem order={order} />}
       />
     </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    flex: 1,
-    gap: 10,
-  },
-});
-
-export default OrderDetailScreen;
+  )
+}
