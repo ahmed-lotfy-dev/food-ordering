@@ -1,18 +1,6 @@
-import {
-  Link,
-  Redirect,
-  Stack,
-  useLocalSearchParams,
-  useRouter,
-} from "expo-router"
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-  ActivityIndicator,
-} from "react-native"
+import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router"
+import { StyleSheet, Pressable, ActivityIndicator } from "react-native"
+import { View, Text } from "@/src/components/Themed"
 import { defaultPizzaImage } from "@/src/components/ProductListItem"
 import { useCart } from "@/src/providers/CartProvider"
 import { PizzaSize } from "@/src/types"

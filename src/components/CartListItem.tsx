@@ -1,18 +1,19 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import React from "react";
-import Colors from "../constants/Colors";
-import { CartItem } from "../types";
-import { Link } from "expo-router";
-import { defaultPizzaImage } from "./ProductListItem";
-import { FontAwesome } from "@expo/vector-icons";
-import { useCart } from "../providers/CartProvider";
+import { View, Text } from "@/src/components/Themed"
+import { StyleSheet, Image, Pressable } from "react-native"
+import React from "react"
+import Colors from "../constants/Colors"
+import { CartItem } from "../types"
+import { Link } from "expo-router"
+import { defaultPizzaImage } from "./ProductListItem"
+import { FontAwesome } from "@expo/vector-icons"
+import { useCart } from "../providers/CartProvider"
 
 type CartListItemProps = {
-  cartItem: CartItem;
-};
+  cartItem: CartItem
+}
 
 const CartListItem = ({ cartItem }: CartListItemProps) => {
-  const { updateQuantity } = useCart();
+  const { updateQuantity } = useCart()
   return (
     <View style={styles.container}>
       <Image
@@ -44,8 +45,8 @@ const CartListItem = ({ cartItem }: CartListItemProps) => {
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -85,6 +86,6 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     fontWeight: "bold",
   },
-});
+})
 
-export default CartListItem;
+export default CartListItem

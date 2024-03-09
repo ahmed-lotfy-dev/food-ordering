@@ -1,13 +1,7 @@
-import {
-  ActivityIndicator,
-  Dimensions,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native"
+import { ActivityIndicator, Dimensions, StyleSheet } from "react-native"
+import { View, Text } from "@/src/components/Themed"
 
 import { FlashList } from "@shopify/flash-list"
-import orders from "@/assets/data/orders"
 import OrderListItem from "@/src/components/OrderListItem"
 import { Stack } from "expo-router"
 import { useAdminOrderList } from "@/src/api/orders"

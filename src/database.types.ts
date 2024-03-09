@@ -53,7 +53,6 @@ export type Database = {
       }
       orders: {
         Row: {
-          order_items: readonly unknown[] | null | undefined
           created_at: string
           id: number
           status: string
@@ -114,6 +113,7 @@ export type Database = {
           full_name: string | null
           group: string
           id: string
+          stripe_customer_id: number | null
           updated_at: string | null
           username: string | null
           website: string | null
@@ -123,6 +123,7 @@ export type Database = {
           full_name?: string | null
           group?: string
           id: string
+          stripe_customer_id?: number | null
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -132,6 +133,7 @@ export type Database = {
           full_name?: string | null
           group?: string
           id?: string
+          stripe_customer_id?: number | null
           updated_at?: string | null
           username?: string | null
           website?: string | null

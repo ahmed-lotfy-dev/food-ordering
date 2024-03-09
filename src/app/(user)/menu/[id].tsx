@@ -1,19 +1,12 @@
-import { Redirect, Stack, useLocalSearchParams, useRouter } from "expo-router"
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-  ActivityIndicator,
-} from "react-native"
+import { View, Text } from "@/src/components/Themed"
+import { Stack, useLocalSearchParams, useRouter } from "expo-router"
+import { StyleSheet, Pressable, ActivityIndicator } from "react-native"
 import { defaultPizzaImage } from "@/src/components/ProductListItem"
 import { useState } from "react"
 import Button from "@/src/components/Buton"
 import { useCart } from "@/src/providers/CartProvider"
 import { PizzaSize } from "@/src/types"
 import { useProduct } from "@/src/api/products"
-import { supabase } from "../../lib/supabase"
 import RemoteImage from "@/src/components/RemoteImage"
 
 const sizes: PizzaSize[] = ["S", "M", "L", "XL"]
@@ -25,7 +18,7 @@ const ProductDetailsScreen = () => {
   const id = parseFloat(typeof idString === "string" ? idString : idString[0])
   const { data: product, isLoading, error } = useProduct(id)
 
-  const { addItem, items } = useCart()
+  const { addItem } = useCart()
 
   const addToCart = () => {
     if (!product) {

@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet, Pressable } from "react-native"
+import { View, Text } from "@/src/components/Themed"
+
+import { StyleSheet, Pressable } from "react-native"
 import React from "react"
 import { Order, Tables } from "../types"
 import relativeTime from "dayjs/plugin/relativeTime"

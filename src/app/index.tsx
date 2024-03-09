@@ -1,4 +1,5 @@
-import { ActivityIndicator, View } from "react-native"
+import { ActivityIndicator } from "react-native"
+import { View } from "@/src/components/Themed"
 import React from "react"
 import Button from "@/components/Buton"
 import { Link, Redirect } from "expo-router"

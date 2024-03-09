@@ -2,7 +2,9 @@ import Button from "@/src/components/Buton"
 import { defaultPizzaImage } from "@/components/ProductListItem"
 import Colors from "@/constants/Colors"
 import { useEffect, useState } from "react"
-import { View, Text, StyleSheet, TextInput, Image, Alert } from "react-native"
+import { StyleSheet, TextInput, Image, Alert } from "react-native"
+import { View, Text } from "@/src/components/Themed"
+
 import * as ImagePicker from "expo-image-picker"
 import { Stack, useLocalSearchParams, useRouter } from "expo-router"
 import {
@@ -66,7 +68,6 @@ const CreateProductScreen = () => {
 
   const onSubmit = () => {
     if (isUpdating) {
-      // update
       onUpdate()
     } else {
       onCreate()
@@ -80,7 +81,6 @@ const CreateProductScreen = () => {
     console.log("created")
     const imagePath = await uploadImage()
 
-    // Save in the database
     insertProduct(
       { name, price: parseFloat(price), image: imagePath },
       {

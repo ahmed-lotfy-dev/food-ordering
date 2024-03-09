@@ -1,4 +1,5 @@
-import { ActivityIndicator, Dimensions, View, Text } from "react-native"
+import { ActivityIndicator, Dimensions } from "react-native"
+import { View, Text } from "@/src/components/Themed"
 
 import { FlashList } from "@shopify/flash-list"
 import OrderListItem from "@/src/components/OrderListItem"
@@ -7,7 +8,7 @@ import { useEffect } from "react"
 import { supabase } from "@/src/app/lib/supabase"
 import { useAdminOrderList } from "@/src/api/orders"
 
-export default function TabTwoScreen() {
+export default function OrdersScreen() {
   useEffect(() => {
     const orders = supabase
       .channel("orders")
@@ -29,7 +30,7 @@ export default function TabTwoScreen() {
     isLoading,
     error,
   } = useAdminOrderList({ archived: false })
-  console.log(orders)
+
   if (isLoading) {
     return <ActivityIndicator />
   }
@@ -44,8 +45,6 @@ export default function TabTwoScreen() {
         height: "100%",
       }}
     >
-      <Stack.Screen options={{ title: "Orders" }} />
-
       <FlashList
         data={orders}
         renderItem={({ item }) => <OrderListItem order={item} />}

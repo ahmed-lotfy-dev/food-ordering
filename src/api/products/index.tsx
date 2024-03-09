@@ -1,4 +1,5 @@
 import { supabase } from "@/src/app/lib/supabase"
+import { Tables } from "@/src/types"
 import {
   useQuery,
   useMutation,
@@ -83,7 +84,7 @@ export const useUpdateProduct = () => {
       }
       return updatedProduct
     },
-    async onSuccess(_, { id }) {
+    async onSuccess({ id }) {
       await queryClient.invalidateQueries({ queryKey: ["products"] })
       await queryClient.invalidateQueries({ queryKey: ["products", id] })
     },

@@ -5,12 +5,9 @@ import Colors from "@/constants/Colors"
 // import { notifyUserAboutOrderUpdate } from "@/lib/notifications"
 import { OrderStatusList } from "@/src/types"
 import { Stack, useLocalSearchParams } from "expo-router"
-import {
-  Text,
-  View,
-  Pressable,
-  ActivityIndicator,
-} from "react-native"
+import { Pressable, ActivityIndicator } from "react-native"
+import { View, Text } from "@/src/components/Themed"
+
 import { FlashList } from "@shopify/flash-list"
 
 export default function OrderDetailsScreen() {
@@ -38,7 +35,7 @@ export default function OrderDetailsScreen() {
   }
 
   return (
-    <View style={{ padding: 10, gap: 20, flex: 1, height: "100%", }}>
+    <View style={{ padding: 10, gap: 20, flex: 1, height: "100%" }}>
       <Stack.Screen options={{ title: `Order #${id}` }} />
 
       <FlashList

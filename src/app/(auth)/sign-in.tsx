@@ -1,4 +1,5 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native"
+import { View, Text } from "@/src/components/Themed"
+import { TextInput, StyleSheet, Alert } from "react-native"
 import React, { useState } from "react"
 import Button from "@/src/components/Buton"
 import Colors from "../../constants/Colors"

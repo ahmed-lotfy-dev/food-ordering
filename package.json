@@ -19,6 +19,7 @@
     "@react-navigation/material-top-tabs": "^6.6.10",
     "@react-navigation/native": "^6.1.14",
     "@shopify/flash-list": "^1.6.3",
+    "@stripe/stripe-react-native": "^0.37.0",
     "@supabase/supabase-js": "^2.39.7",
     "@tanstack/react-query": "^5.24.8",
     "base64-arraybuffer": "^1.0.2",
@@ -54,6 +55,7 @@
     "jest-expo": "~50.0.2",
     "react-native-dotenv": "^3.4.11",
     "react-test-renderer": "18.2.0",
+    "supabase": "^1.148.6",
     "typescript": "^5.3.3"
   },
   "private": true,

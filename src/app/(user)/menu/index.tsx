@@ -1,4 +1,6 @@
-import { ActivityIndicator, Dimensions, View, Text, Button } from "react-native"
+import { View, Text } from "@/src/components/Themed"
+
+import { ActivityIndicator, Dimensions, Button } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import ProductListItem from "@/components/ProductListItem"
 import { useProductList } from "@/src/api/products"

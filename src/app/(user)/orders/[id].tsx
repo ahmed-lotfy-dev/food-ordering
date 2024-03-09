@@ -1,9 +1,11 @@
+import { View, Text } from "@/src/components/Themed"
+
+import { ActivityIndicator } from "react-native"
 import { useOrderDetails } from "@/src/api/orders"
 // import { useUpdateOrderSubscription } from "@/src/api/orders/subscriptions"
 import OrderItemListItem from "@/components/OrderItemListItem"
 import OrderListItem from "@/components/OrderListItem"
 import { Stack, useLocalSearchParams } from "expo-router"
-import { ActivityIndicator, Text, View } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 
 export default function OrderDetailsScreen() {

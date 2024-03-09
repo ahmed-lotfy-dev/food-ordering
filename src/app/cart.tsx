@@ -1,5 +1,6 @@
-import { View, Text, Platform, Dimensions } from "react-native"
+import { Platform, Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
+import { View, Text } from "@/src/components/Themed"
 
 import { useCart } from "../providers/CartProvider"
 import CartListItem from "@/components/CartListItem"
