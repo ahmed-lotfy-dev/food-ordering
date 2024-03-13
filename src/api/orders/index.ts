@@ -45,7 +45,7 @@ export const useMyOrderList = () => {
 }
 
 export const useOrderDetails = (id: number) => {
-  return useQuery<Tables<"orders">>({
+  return useQuery({
     queryKey: ["orders", id],
     queryFn: async () => {
       const { data, error } = await supabase

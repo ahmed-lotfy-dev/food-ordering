@@ -7,17 +7,18 @@ import OrderItemListItem from "@/components/OrderItemListItem"
 import OrderListItem from "@/components/OrderListItem"
 import { Stack, useLocalSearchParams } from "expo-router"
 import { FlashList } from "@shopify/flash-list"
+import { useUpdateOrderSubscription } from "@/src/api/orders/subscriptions"
 
 export default function OrderDetailsScreen() {
   const { id: idString } = useLocalSearchParams()
   const id = parseFloat(typeof idString === "string" ? idString : idString[0])
 
-  const { data: order, isLoading, error } = useOrderDetails(id) as any
-  // useUpdateOrderSubscription(id)
+  const { data: order, isLoading, error } = useOrderDetails(id)
+  useUpdateOrderSubscription(id)
   if (isLoading) {
     return <ActivityIndicator />
   }
-  if (error) {
+  if (error || !order) {
     return <Text>Failed to fetch</Text>
   }
 

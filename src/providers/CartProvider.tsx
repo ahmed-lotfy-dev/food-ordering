@@ -1,10 +1,10 @@
+import { CartItem, Tables } from "@/src/types"
 import { PropsWithChildren, createContext, useContext, useState } from "react"
-import { CartItem, Tables } from "../types"
 import { randomUUID } from "expo-crypto"
+import { useRouter } from "expo-router"
 import { useInsertOrder } from "../api/orders"
 import { useInsertOrderItems } from "../api/order-item"
-import { router, useRouter } from "expo-router"
-import { initialisePaymentSheet, openPaymentSheet } from "../app/lib/stripe"
+import { initialisePaymentSheet, openPaymentSheet } from "@/src/app/lib/stripe"
 
 type Product = Tables<"products">
 
@@ -15,6 +15,7 @@ type CartType = {
   total: number
   checkout: () => void
 }
+
 const CartContext = createContext<CartType>({
   items: [],
   addItem: () => {},
@@ -23,7 +24,7 @@ const CartContext = createContext<CartType>({
   checkout: () => {},
 })
 
-export default function CartProvider({ children }: PropsWithChildren) {
+const CartProvider = ({ children }: PropsWithChildren) => {
   const [items, setItems] = useState<CartItem[]>([])
 
   const { mutate: insertOrder } = useInsertOrder()
@@ -79,9 +80,9 @@ export default function CartProvider({ children }: PropsWithChildren) {
     await initialisePaymentSheet(Math.floor(total * 100))
     const payed = await openPaymentSheet()
     if (!payed) {
-    return
+      return
     }
-
+    
     insertOrder(
       { total },
       {
@@ -105,6 +106,7 @@ export default function CartProvider({ children }: PropsWithChildren) {
       },
     })
   }
+
   return (
     <CartContext.Provider
       value={{ items, addItem, updateQuantity, total, checkout }}
@@ -113,5 +115,7 @@ export default function CartProvider({ children }: PropsWithChildren) {
     </CartContext.Provider>
   )
 }
+
+export default CartProvider
 
 export const useCart = () => useContext(CartContext)

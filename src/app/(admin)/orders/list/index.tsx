@@ -3,27 +3,11 @@ import { View, Text } from "@/src/components/Themed"
 
 import { FlashList } from "@shopify/flash-list"
 import OrderListItem from "@/src/components/OrderListItem"
-import { Stack } from "expo-router"
-import { useEffect } from "react"
-import { supabase } from "@/src/app/lib/supabase"
 import { useAdminOrderList } from "@/src/api/orders"
+import { useInsertOrderSubscription } from "@/src/api/orders/subscriptions"
 
 export default function OrdersScreen() {
-  useEffect(() => {
-    const orders = supabase
-      .channel("orders")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "orders" },
-        (payload) => {
-          console.log("Change received!", payload)
-        }
-      )
-      .subscribe()
-    return () => {
-      orders.unsubscribe()
-    }
-  }, [])
+  useInsertOrderSubscription()
 
   const {
     data: orders,

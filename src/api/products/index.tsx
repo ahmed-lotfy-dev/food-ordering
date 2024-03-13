@@ -1,5 +1,5 @@
 import { supabase } from "@/src/app/lib/supabase"
-import { Tables } from "@/src/types"
+import { InsertTables, Tables, UpdateTables } from "@/src/types"
 import {
   useQuery,
   useMutation,
@@ -42,7 +42,7 @@ export const useInsertProduct = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    async mutationFn(data: any) {
+    async mutationFn(data: InsertTables<"products">) {
       const { error, data: newProduct } = await supabase
         .from("products")
         .insert({

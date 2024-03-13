@@ -1,12 +1,13 @@
-import React from "react"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
-import { Redirect, Tabs } from "expo-router"
+import { Link, Redirect, Tabs } from "expo-router"
+import { Pressable, useColorScheme } from "react-native"
 
-import Colors from "@/constants/Colors"
-import { useClientOnlyValue } from "@/components/useClientOnlyValue"
+import Colors from "../../constants/Colors"
 import { useAuth } from "@/src/providers/AuthProvider"
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+/**
+ * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+ */
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"]
   color: string
@@ -16,23 +17,23 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const { isAdmin } = useAuth()
-console.log({isAdmin})
+
   if (!isAdmin) {
-    return <Redirect href="/" />
+    return <Redirect href={"/"} />
   }
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.light.background,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-        tabBarInactiveBackgroundColor: "gainboro",
-        tabBarStyle: { backgroundColor: Colors.light.tint },
+        tabBarInactiveTintColor: "gainsboro",
+        tabBarStyle: {
+          backgroundColor: Colors.light.tint,
+        },
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
+
       <Tabs.Screen
         name="menu"
         options={{

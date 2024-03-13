@@ -22,6 +22,16 @@ const SignInScreen = () => {
     if (error) Alert.alert(error.message)
     setLoading(false)
   }
+
+  const googleSigninHandler = async () => {
+    console.warn("google signin pressed")
+    const data = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: "/" },
+    })
+    console.log(data)
+  }
+
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: "Sign in" }} />

@@ -1,45 +1,48 @@
-import { Alert } from "react-native";
-import { initPaymentSheet, presentPaymentSheet } from "@stripe/stripe-react-native";
-import { supabase } from "./supabase";
+import { Alert } from "react-native"
+import { supabase } from "./supabase"
+import {
+  initPaymentSheet,
+  presentPaymentSheet,
+} from "@stripe/stripe-react-native"
 
-// Payments
 const fetchPaymentSheetParams = async (amount: number) => {
-  // Create payment session for our customer
-  const { data, error } = await supabase.functions.invoke('payment-sheet', {
+  const { data, error } = await supabase.functions.invoke("payment-sheet", {
     body: { amount },
-  });
-
+  })
   if (data) {
-    return data;
+    console.log(data)
+    return data
   }
-  Alert.alert(`Error: ${error?.message ?? 'no data'}`);
-  return {};
-};
+  Alert.alert("Error fetching payment sheet params")
+  return {}
+}
 
 export const initialisePaymentSheet = async (amount: number) => {
-  // setLoading(true);
-  const { paymentIntent, publishableKey } = await fetchPaymentSheetParams(amount);
+  console.log("Initialising payment sheet, for: ", amount)
 
-  if (!publishableKey || !paymentIntent) return;
+  const { paymentIntent, publishableKey, customer, ephemeralKey } =
+    await fetchPaymentSheetParams(amount)
 
-  const { error } = await initPaymentSheet({
-    merchantDisplayName: 'Example, Inc.',
-    // customerId: customer,
+  if (!paymentIntent || !publishableKey) return console.log("no payment intent")
+
+  const result = await initPaymentSheet({
+    merchantDisplayName: "notJust.dev",
     paymentIntentClientSecret: paymentIntent,
+    customerId: customer,
+    customerEphemeralKeySecret: ephemeralKey,
     defaultBillingDetails: {
-      name: 'Jane Doe',
+      name: "Jane Doe",
     },
-  });
-};
+  })
+  console.log(result)
+}
 
 export const openPaymentSheet = async () => {
-  const { error } = await presentPaymentSheet();
+  const { error } = await presentPaymentSheet()
 
   if (error) {
-    Alert.alert(`Error code: ${error.code}`, error.message);
-		return false;
-  } else {
-    Alert.alert('Success', 'Your order is confirmed!');
-		return true;
+    Alert.alert(error.message)
+    return false
   }
-};
+  return true
+}
