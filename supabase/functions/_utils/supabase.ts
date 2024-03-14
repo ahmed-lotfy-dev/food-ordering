@@ -27,7 +27,6 @@ export const createOrRetrieveProfile = async (req: Request) => {
     throw new Error("Profile not found")
   }
 
-  console.log(profile)
   if (profile.stripe_customer_id) {
     return profile.stripe_customer_id
   }

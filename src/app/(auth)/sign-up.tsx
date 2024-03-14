@@ -12,9 +12,7 @@ const SignUpScreen = () => {
   const [loading, setLoading] = useState(false)
 
   const onSignUpHandler = async () => {
-    console.log({ email, password })
     const { data, error } = await supabase.auth.signUp({ email, password })
-    console.log(data)
     if (error) Alert.alert(error.message)
     setLoading(false)
   }

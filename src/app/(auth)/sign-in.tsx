@@ -12,13 +12,11 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false)
 
   const onSigninHandler = async () => {
-    console.log({ email, password })
     setLoading(true)
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
-    console.log({ data })
     if (error) Alert.alert(error.message)
     setLoading(false)
   }
@@ -29,7 +27,6 @@ const SignInScreen = () => {
       provider: "google",
       options: { redirectTo: "/" },
     })
-    console.log(data)
   }
 
   return (

@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react"
-import { Text, View, Button, Platform } from "react-native"
+import { Platform } from "react-native"
 import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
 import Constants from "expo-constants"
+import { supabase } from "./supabase"
+import { Tables } from "@/src/types"
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -14,13 +15,15 @@ Notifications.setNotificationHandler({
 
 // Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
 async function sendPushNotification(
-  expoPushToken: Notifications.ExpoPushToken
+  expoPushToken: Notifications.ExpoPushToken,
+  title: string,
+  body: string
 ) {
   const message = {
     to: expoPushToken,
     sound: "default",
-    title: "Original Title",
-    body: "And here is the body!",
+    title,
+    body,
     data: { someData: "goes here" },
   }
 
@@ -63,10 +66,28 @@ export async function registerForPushNotificationsAsync() {
         projectId: Constants.expoConfig?.extra?.eas.projectId,
       })
     ).data
-    console.log(token)
+    console.log({ token })
   } else {
     alert("Must use physical device for Push Notifications")
   }
 
   return token
+}
+
+const getUserToken = async (userId: string) => {
+  const { data } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single()
+  return data
+}
+
+export const notifyUserAboutOrderUpdate = async (order: Tables<"orders">) => {
+  const token = await getUserToken(order.user_id)
+  console.log({ token }, "from inside the lib notification")
+  console.log(order)
+  const title = `Your order is ${order.status}`
+  const body = "world"
+  sendPushNotification(token, title, body)
 }

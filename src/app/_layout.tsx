@@ -5,16 +5,14 @@ import {
   ThemeProvider,
 } from "@react-navigation/native"
 import { useFonts } from "expo-font"
-import { Stack } from "expo-router"
-import * as SplashScreen from "expo-splash-screen"
+import { SplashScreen, Stack } from "expo-router"
 import { useEffect } from "react"
-
-import { useColorScheme } from "@/components/useColorScheme"
-import CartProvider from "../providers/CartProvider"
-import AuthProvider, { useAuth } from "../providers/AuthProvider"
-import QueryProvider from "../providers/QueryProvider"
+import { useColorScheme } from "react-native"
+import CartProvider from "@/src/providers/CartProvider"
+import AuthProvider from "@/src/providers/AuthProvider"
+import QueryProvider from "@/src/providers/QueryProvider"
 import { StripeProvider } from "@stripe/stripe-react-native"
-import NotificationProvider from "../providers/NotificationProvider"
+import NotificationProvider from "@/src/providers/NotificationProvider"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -31,7 +29,7 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("@/assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   })
 
@@ -55,28 +53,23 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
-  const { session } = useAuth()
-  const user = session?.user
-  console.log(user)
+
   return (
-    // <NotificationProvider>
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <StripeProvider
         publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""}
-        urlScheme="al-food-ordering" // required for 3D Secure and bank redirects
-        merchantIdentifier="merchant.com.{{al-food-ordering}}" // required for Apple Pay
       >
         <AuthProvider>
           <QueryProvider>
-            {/* <NotificationProvider> */}
+            <NotificationProvider>
               <CartProvider>
                 <Stack>
                   <Stack.Screen
-                    name="(user)"
+                    name="(admin)"
                     options={{ headerShown: false }}
                   />
                   <Stack.Screen
-                    name="(admin)"
+                    name="(user)"
                     options={{ headerShown: false }}
                   />
                   <Stack.Screen
@@ -89,11 +82,10 @@ function RootLayoutNav() {
                   />
                 </Stack>
               </CartProvider>
-            {/* </NotificationProvider> */}
+            </NotificationProvider>
           </QueryProvider>
         </AuthProvider>
       </StripeProvider>
     </ThemeProvider>
-    // </NotificationProvider>
   )
 }

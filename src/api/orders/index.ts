@@ -17,7 +17,6 @@ export const useAdminOrderList = ({ archived = false }) => {
       if (error) {
         throw new Error(error.message)
       }
-      console.log(data)
       return data
     },
   })
@@ -54,7 +53,6 @@ export const useOrderDetails = (id: number) => {
         .eq("id", id)
         .single()
 
-      console.log(data)
 
       if (error) {
         throw new Error(error.message)

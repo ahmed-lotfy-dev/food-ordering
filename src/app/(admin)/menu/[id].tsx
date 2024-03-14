@@ -16,8 +16,6 @@ const ProductDetailsScreen = () => {
   const { id: idString } = useLocalSearchParams()
   const id = parseFloat(typeof idString === "string" ? idString : idString[0])
   const { data: product, error, isLoading } = useProduct(id)
-  console.log({ product }, "from inside the use product query function")
-  console.log(product)
 
   if (isLoading) {
     return <ActivityIndicator />
@@ -27,8 +25,7 @@ const ProductDetailsScreen = () => {
   }
 
   if (!product) return <Text>Product not found</Text>
-  console.log(product.image)
-  console.log(product)
+
   return (
     <View style={styles.container}>
       <Stack.Screen

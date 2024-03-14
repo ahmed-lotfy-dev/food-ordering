@@ -9,6 +9,7 @@ import { Pressable, ActivityIndicator } from "react-native"
 import { View, Text } from "@/src/components/Themed"
 
 import { FlashList } from "@shopify/flash-list"
+import { notifyUserAboutOrderUpdate } from "../../lib/notifications"
 
 export default function OrderDetailsScreen() {
   const { id: idString } = useLocalSearchParams()
@@ -23,7 +24,7 @@ export default function OrderDetailsScreen() {
       updatedFields: { status },
     })
     if (order) {
-      // await notifyUserAboutOrderUpdate({ ...order, status })
+      await notifyUserAboutOrderUpdate({ ...order, status })
     }
   }
 

@@ -50,8 +50,3 @@ export const useUpdateOrderSubscription = (id: number) => {
     }
   }, [])
 }
-
-const refetch = () => {
-  const queryClient = useQueryClient()
-  queryClient.invalidateQueries({ queryKey: ["orders"] })
-}

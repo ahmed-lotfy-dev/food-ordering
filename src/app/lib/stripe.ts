@@ -10,7 +10,6 @@ const fetchPaymentSheetParams = async (amount: number) => {
     body: { amount },
   })
   if (data) {
-    console.log(data)
     return data
   }
   Alert.alert("Error fetching payment sheet params")
@@ -34,7 +33,6 @@ export const initialisePaymentSheet = async (amount: number) => {
       name: "Jane Doe",
     },
   })
-  console.log(result)
 }
 
 export const openPaymentSheet = async () => {

@@ -13,7 +13,6 @@ export default function MenuScreen() {
   }
 
   if (error) return <Text>Failed to fetch products</Text>
-  console.log(products)
   return (
     <View style={{ width: Dimensions.get("screen").width, height: "100%" }}>
       <FlashList

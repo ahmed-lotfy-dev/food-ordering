@@ -78,7 +78,6 @@ const CreateProductScreen = () => {
     if (!validateInput()) {
       return
     }
-    console.log("created")
     const imagePath = await uploadImage()
 
     insertProduct(
@@ -160,8 +159,6 @@ const CreateProductScreen = () => {
     const { data, error } = await supabase.storage
       .from("product-images")
       .upload(filePath, decode(base64), { contentType })
-
-    console.log(error)
 
     if (data) {
       return data.path
